@@ -1,3 +1,3 @@
 how marge can works here pull request is working properly
-how could you works can you please explain
+how now changing in master value
 now this file added to master branch add clone it
