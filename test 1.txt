@@ -1,2 +1,2 @@
 hello i am mandeep mishra
-i am adding the line to check marge and commit 
+i am adding the line to check marge and commit \git commit = true
