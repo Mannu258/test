@@ -1,1 +1,5 @@
+# Ignore SQLite database file
+sqlite.db
+
+# Ignore main HTML file
 main.html
