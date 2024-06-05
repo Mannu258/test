@@ -1,14 +1,18 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QToolBar, QLineEdit, QAction
+from PyQt5.QtWidgets import QApplication, QMainWindow, QToolBar, QLineEdit, QAction, QPushButton
 from PyQt5.QtCore import QUrl
-from PyQt5.QtWebEngineWidgets import QWebEngineView
+from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEngineSettings
 
 # Main window class
 class BrowserWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.browser = QWebEngineView()
-        self.browser.setUrl(QUrl("http://www.google.com"))
+
+        # Disable JavaScript
+        self.browser.settings().setAttribute(QWebEngineSettings.JavascriptEnabled, True)
+
+        self.browser.setUrl(QUrl("https://"))
         self.setCentralWidget(self.browser)
         self.showMaximized()
 
@@ -33,12 +37,20 @@ class BrowserWindow(QMainWindow):
 
         # URL bar
         self.url_bar = QLineEdit()
-        self.url_bar.returnPressed.connect(self.navigate_to_url)
         navbar.addWidget(self.url_bar)
+
+        # Submit button
+        submit_btn = QPushButton('Go', self)
+        submit_btn.clicked.connect(self.navigate_to_url)
+        navbar.addWidget(submit_btn)
+
+        # Update URL bar with the current page's URL
         self.browser.urlChanged.connect(self.update_url)
 
     def navigate_to_url(self):
         url = self.url_bar.text()
+        if not url.startswith(('http://', 'https://')):
+            url = 'http://www.google.com/search?q=' + url
         self.browser.setUrl(QUrl(url))
 
     def update_url(self, q):
@@ -46,6 +58,6 @@ class BrowserWindow(QMainWindow):
 
 # PyQt application
 app = QApplication(sys.argv)
-QApplication.setApplicationName('My Browser')
+QApplication.setApplicationName('Python Browser')
 window = BrowserWindow()
 app.exec_()
